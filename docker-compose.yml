@@ -1,0 +1,38 @@
+version: '3.7'
+networks:
+  default:
+    name: fpl
+    external: true
+volumes:
+  node_modules:
+  bundle:
+  postgres:
+services:
+  web: &web
+    tty: true
+    stdin_open: true
+    image: fpl-rails
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bundle exec rails s -p 3000 -b 0.0.0.0
+    environment:
+      - BUNDLE_CACHE_ALL=false
+      - BUNDLE_PATH=/bundle
+      - BUNDLE_JOBS=4
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app/fpl-rails:delegated
+      - bundle:/bundle
+      - node_modules:/app/fpl-rails/node_modules
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:15.2
+    ports:
+      - '3432:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
