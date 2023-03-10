@@ -13,6 +13,8 @@ RSpec.describe "Authentication", type: :request do
       it 'succeeds and returns token' do
         expect { action }.to_not raise_error
         expect(response.status).to eq(200)
+        expect(JSON.parse(response.body)['id']).to eq(user.id)
+        expect(JSON.parse(response.body)['email']).to eq(user.email)
         expect(JSON.parse(response.body)['token']).to_not be_nil
       end
     end
