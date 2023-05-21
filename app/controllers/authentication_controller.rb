@@ -5,7 +5,7 @@ class AuthenticationController < ApplicationController
     user = User.find_by_email(params[:email])
     if user&.authenticate(params[:password])
       token = encode_token({ user_id: user.id })
-      render json: { id: user.id, email: user.email, token: token }, status: 200
+      render json: { id: user.id, email: user.email, imageUrl: user.image_url, token: token }, status: 200
     else
       render json: { errors: ['Unauthorized'] }, status: 401
     end
