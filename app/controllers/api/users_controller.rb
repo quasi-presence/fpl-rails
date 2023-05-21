@@ -6,9 +6,14 @@ class Api::UsersController < ApplicationController
     render json: data, status: data['errors'].present? ? 422 : 200
   end
 
+  def update
+    data = Api::Service.call(params['version'], 'UpdateUser', user_params)
+    render json: data, status: data['errors'].present? ? 422 : 200
+  end
+
   private
 
   def user_params
-    params.permit(:email, :imageUrl, :password)
+    params.permit(:id, :email, :imageUrl, :password)
   end
 end
