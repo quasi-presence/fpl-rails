@@ -11,9 +11,7 @@ class Api::V1::CreateUser
       {
         'id' => user.id,
         'email' => user.email,
-        'imageUrl' => user.image_url,
-        'created_at' => user.created_at,
-        'updated_at' => user.updated_at
+        'imageUrl' => user.image_url
       }
     end
 
