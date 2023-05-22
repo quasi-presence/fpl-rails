@@ -13,10 +13,11 @@ RSpec.describe "Authentication", type: :request do
       it 'succeeds and returns token' do
         expect { action }.to_not raise_error
         expect(response.status).to eq(200)
+        expect(response.headers['Access-Control-Expose-Headers']).to eq('Authorization')
+        expect(response.headers['Authorization']).to_not be_nil
         expect(JSON.parse(response.body)['id']).to eq(user.id)
         expect(JSON.parse(response.body)['email']).to eq(user.email)
         expect(JSON.parse(response.body)['imageUrl']).to eq(user.image_url)
-        expect(JSON.parse(response.body)['token']).to_not be_nil
       end
     end
 
@@ -26,6 +27,7 @@ RSpec.describe "Authentication", type: :request do
       it 'returns error' do
         expect { action }.to_not raise_error
         expect(response.status).to eq(401)
+        expect(response.headers['Authentication']).to be_nil
         expect(JSON.parse(response.body)).to eq({ 'errors' => ['Unauthorized'] })
       end
     end
