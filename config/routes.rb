@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :api do
     scope ':version' do # use scope so we dynamically add support for different api versions
       resources :users, only: [:create, :update]
+      resources :user_leagues, only: [:create]
     end
   end
 end
